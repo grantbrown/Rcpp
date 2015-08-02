@@ -372,13 +372,15 @@ compileAttributes <- function(pkgdir = ".", verbose = getOption("verbose")) {
         dir.create(rDir)
 
     # get a list of all source files
-    cppFiles <- list.files(srcDir, pattern = "\\.((c(c|pp))|(h(pp)?))$")
+    cppFiles <- list.files(srcDir, pattern = "\\.((c(c|pp))|(h(pp)?))$",
+                           recursive = TRUE)
 
     # derive base names (will be used for modules)
     cppFileBasenames <- tools::file_path_sans_ext(cppFiles)
 
     # expend them to their full paths
-    cppFiles <- file.path(srcDir, cppFiles)
+    cppFiles <- list.files(srcDir, pattern = "\\.((c(c|pp))|(h(pp)?))$",
+                           recursive = TRUE, full.names = TRUE)
     cppFiles <- normalizePath(cppFiles, winslash = "/")
 
     # generate the includes list based on LinkingTo. Specify plugins-only
